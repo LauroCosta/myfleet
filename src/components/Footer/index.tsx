@@ -6,7 +6,6 @@ import carIcon from "../../assets/images/car.svg";
 import homeIcon from "../../assets/images/home.svg";
 import km from "../../assets/images/km.svg";
 import user from "../../assets/images/user.svg";
-import { AddExpenseModal } from "../AddExpenseModal";
 import { useExpense } from "../../contexts/ExpenseContext";
 
 export function Footer() {
@@ -34,7 +33,6 @@ export function Footer() {
           <a><img src={user} alt="Tela perfil" /></a>
         </NavLink>
       </FooterStyle>
-      <AddExpenseModal />
     </>
   )
 }
