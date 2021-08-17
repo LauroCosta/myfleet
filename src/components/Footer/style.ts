@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const FooterStyle = styled.footer`
 
   position: absolute;
-  background-color: #f6f6f6;
+  background-color: #ffffff;
   width: 100%;
   bottom: 0;
   height: 3.5rem;
@@ -34,7 +34,7 @@ export const FooterStyle = styled.footer`
     border-radius: 100%;
     color: #fff;
     font-size: 2rem;
-
+    border: #f6f6f6 0.40rem solid;
     transition: filter 0.3s;
 
     &:hover {

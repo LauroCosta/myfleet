@@ -1,11 +1,16 @@
-import { ContainerScreen } from "../../components/ContainerBox/style";
 import { Footer } from "../../components/Footer";
+import { Content } from "./style";
 
 export function Mileage() {
   return (
-    <ContainerScreen>
-      <h1>Quilometragem</h1>
+    <>
+      <Content>
+
+        <h1>Quilometragem</h1>
+
+      </Content>
+
       <Footer />
-    </ContainerScreen>
+    </>
   );
 }

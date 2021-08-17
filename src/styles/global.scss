@@ -14,3 +14,19 @@ body {
 body, input, button, textarea {
   font: 400 1rem Roboto, sans-serif;
 }
+
+button {
+  cursor: pointer;
+}
+
+@media (max-width: 400px){
+  html {
+    font-size: 93.75%;
+  }
+}
+
+@media (max-width: 320px){
+  html {
+    font-size: 87.5%;
+  }
+}

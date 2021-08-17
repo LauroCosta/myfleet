@@ -16,7 +16,7 @@ export const Section = styled.section`
   .content{
     position: relative;
     height: 80%;
-    width: 100%;
+    width: 90%;
     background-color: #ffffff;
     border-radius: 1rem;
     padding: 2rem;

@@ -1,10 +1,9 @@
-import { ContainerScreen } from "../../components/ContainerBox/style";
 import { Footer } from "../../components/Footer";
 import { ItemList } from "../../components/ItemList";
 import { useAuth } from "../../hooks/useAuth";
 
 
-import { Content} from "./style";
+import { Content } from "./style";
 
 type Item = {
   description: string;
@@ -22,21 +21,25 @@ export function Dashboard() {
 
   return (
 
-    <ContainerScreen>
-      <Content>
 
-        <header>
-          <div className="profile">
-            <h1>{user?.name}</h1>
-            <img src={user?.avatar} alt="avatar" />
-          </div>
+    <Content>
 
-        </header>
+      <header>
+        <div className="profile">
+          <h1>{user?.name}</h1>
+          <img src={user?.avatar} alt="avatar" />
+        </div>
 
-        <section>
-          <h1>Últimas despesas</h1>
-        </section>
-      </Content>
-    </ContainerScreen>
+      </header>
+
+      <section>
+        <h1>Últimas despesas</h1>
+      </section>
+
+
+      <Footer />
+    </Content>
+
+
   );
 }
