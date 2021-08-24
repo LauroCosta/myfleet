@@ -3,6 +3,7 @@ import day from 'dayjs';
 import { useState, useEffect } from 'react';
 
 import { database } from '../../services/firebase';
+import { useAuth } from "../../hooks/useAuth";
 
 type ExpensesData = Record<string, {
   description: string;
@@ -23,7 +24,16 @@ type Expenses = {
 
 export function ExpenseList() {
 
+  const { user } = useAuth();
+
   const [expenses, setExpenses] = useState<Expenses[]>([]);
+
+  function filterMyId(value: Expenses) {
+    if (value.userId === user?.id){
+      return value;
+    }
+    return;
+  }
 
   useEffect(() => {
     const expensesRef = database.ref('expenses').orderByChild('createdAt');
@@ -45,15 +55,7 @@ export function ExpenseList() {
           };
         }
       );
-
-      setExpenses(parsedExpenses.reverse());
-
-      // console.log(parsedExpenses);
-      // var filtrado = expenses.filter(function(obj) { return (obj.userId === user?.id) });
-
-      // setExpenses(filtrado);
-      // console.log(filtrado);
-      // console.log(user?.id);
+      setExpenses(parsedExpenses.reverse().filter(filterMyId));
     });
   }, []);
 
@@ -69,9 +71,9 @@ export function ExpenseList() {
 
             </div>
             <h1 className="price">{new Intl.NumberFormat('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL'
-                }).format(expense.value)}</h1>
+              style: 'currency',
+              currency: 'BRL'
+            }).format(expense.value)}</h1>
           </Container>
         );
       })}
