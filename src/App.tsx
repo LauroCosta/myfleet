@@ -1,28 +1,23 @@
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
-import { Home } from "./pages/Home";
-import { Dashboard } from "./pages/Dashboard";
-import { Profile } from './pages/Profile';
-import { Vehicle } from './pages/Vehicle';
-import { Mileage } from "./pages/Mileage";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { ExpenseContextProvider } from "./contexts/ExpenseContext";
 import { AddExpenseModal } from "./components/AddExpenseModal";
 import { ContainerScreen } from "./components/ContainerBox/style";
+import { Routes } from "./routes/Routes";
+import { VehicleContextProvider } from "./contexts/VehicleContext";
 
 function App() {
   return (
     <ContainerScreen>
       <BrowserRouter>
         <AuthContextProvider>
-          <ExpenseContextProvider>
-            <Route exact path="/" component={Home} />
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/vehicle" component={Vehicle} />
-            <Route path="/mileage" component={Mileage} />
-            <AddExpenseModal />
-          </ExpenseContextProvider>
+          <VehicleContextProvider>
+            <ExpenseContextProvider>
+              <Routes />
+              <AddExpenseModal />
+            </ExpenseContextProvider>
+          </VehicleContextProvider>
         </AuthContextProvider>
       </BrowserRouter>
     </ContainerScreen>
