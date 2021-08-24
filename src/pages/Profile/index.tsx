@@ -1,4 +1,3 @@
-import { useHistory } from "react-router-dom";
 import { Button } from "../../components/Button";
 import logout from "../../assets/images/logout.svg";
 import { Footer } from "../../components/Footer";
@@ -7,14 +6,8 @@ import { Container } from "./style";
 
 export function Profile() {
 
-  const history = useHistory();
   const { logOut, user } = useAuth();
 
-  function toggleLogOut() {
-    logOut();
-
-    history.push("/");
-  }
   return (
     <Container>
       <header>
@@ -33,7 +26,7 @@ export function Profile() {
         <strong>{user?.email}</strong>
 
         <div className="logout">
-          <Button onClick={toggleLogOut}>
+          <Button onClick={logOut}>
             <img src={logout} alt="Sair" />  
             Sair
           </Button>

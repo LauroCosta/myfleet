@@ -1,29 +1,25 @@
 import { Footer } from "../../components/Footer";
-import { ItemList } from "../../components/ItemList";
+import { ExpenseList } from "../../components/ItemList";
 import { useAuth } from "../../hooks/useAuth";
 
-
 import { Content } from "./style";
-
-type Item = {
-  description: string;
-  type: string;
-  value: number;
-  locale: string;
-  img: string;
-  date: Date;
-}
 
 export function Dashboard() {
 
   const { user } = useAuth();
+  
+  
+  // useEffect(() => {
+    
+  //   if (!user) {
+  //     history.push("/");
+  //   }
+  // }, [])
 
-
+  
   return (
 
-
     <Content>
-
       <header>
         <div className="profile">
           <h1>{user?.name}</h1>
@@ -31,15 +27,12 @@ export function Dashboard() {
         </div>
 
       </header>
-
+      <h1>Últimas despesas</h1>
       <section>
-        <h1>Últimas despesas</h1>
+        <ExpenseList />
       </section>
-
 
       <Footer />
     </Content>
-
-
   );
 }

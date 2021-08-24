@@ -28,12 +28,26 @@ export const Content = styled.div`
     }
   }
 
+  > h1 {
+
+    color: #6D6D6D;
+    font-size: 1.5rem;
+    margin: 1rem;
+    margin-bottom: 0.5rem;
+  }
   section {
 
-    padding: 1rem 2rem;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 
-    h1 {
-      color: #6D6D6D;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+    width: 0;            
     }
+    padding: 1rem;
+
+
   }
 `;

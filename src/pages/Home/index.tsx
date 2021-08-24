@@ -1,4 +1,3 @@
-import { useHistory } from "react-router-dom";
 import Animation from "react-lottie";
 
 import googleIconImg from "../../assets/images/google-icon.svg"
@@ -19,16 +18,7 @@ export const DEFAULT_OPTIONS = {
 
 export function Home() {
 
-  const history = useHistory();
-  const { signInWithGoogle, user } = useAuth();
-
-  async function handleLoginGoogle() {
-    if (!user) {
-      await signInWithGoogle();
-    }
-
-    history.push("/dashboard");
-  }
+  const { signInWithGoogle} = useAuth();
 
   return (
 
@@ -48,7 +38,7 @@ export function Home() {
       </div>
 
       <footer>
-        <button className="loginGoogle" onClick={handleLoginGoogle}>
+        <button className="loginGoogle" onClick={signInWithGoogle}>
           <img src={googleIconImg} alt="Logo do Google" />
           Entre com sua conta Google
 

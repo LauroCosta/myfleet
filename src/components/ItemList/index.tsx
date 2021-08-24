@@ -1,30 +1,80 @@
-import "./style.scss";
+import { Container } from "./style"
+import day from 'dayjs';
+import { useState, useEffect } from 'react';
 
-import  maintenence  from "../../assets/images/maintenance.svg"
+import { database } from '../../services/firebase';
 
-type Item = {
+type ExpensesData = Record<string, {
   description: string;
-  type: string;
   value: number;
   locale: string;
-  img: string;
-  date: Date;
-}
+  userId: string;
+  createdAt: string;
+}>
 
-export function ItemList(item: Item ) {
+type Expenses = {
+  id: string;
+  description: string;
+  value: number;
+  locale: string;
+  userId: string;
+  createdAt: string;
+};
+
+export function ExpenseList() {
+
+  const [expenses, setExpenses] = useState<Expenses[]>([]);
+
+  useEffect(() => {
+    const expensesRef = database.ref('expenses').orderByChild('createdAt');
+
+    expensesRef.on('value', (expense) => {
+      const databaseExpense = expense.val();
+
+      const firebaseExpenses: ExpensesData = databaseExpense ?? {};
+
+      const parsedExpenses = Object.entries(firebaseExpenses).map(
+        ([key, value]) => {
+          return {
+            id: key,
+            description: value.description,
+            value: value.value,
+            locale: value.locale,
+            userId: value.userId,
+            createdAt: value.createdAt
+          };
+        }
+      );
+
+      setExpenses(parsedExpenses.reverse());
+
+      // console.log(parsedExpenses);
+      // var filtrado = expenses.filter(function(obj) { return (obj.userId === user?.id) });
+
+      // setExpenses(filtrado);
+      // console.log(filtrado);
+      // console.log(user?.id);
+    });
+  }, []);
+
   return (
-    <div className="container">
-      
-      <img className={item.type} src={item.type} alt="tipo de despesa"/>
-      
-      <div>
-        <h1>{item.description}</h1>
-        <h2>{item.locale}</h2>
-        <strong>{item.date}</strong>
-      </div>
+    <>
+      {expenses.map((expense) => {
+        return (
+          <Container key={expense.id}>
+            <div className="info" >
+              <h1>{expense.description}</h1>
+              <h2>{expense.locale}</h2>
+              <strong>{day(expense.createdAt).format('DD-MM-YY HH:m')}</strong>
 
-      <h1>{item.value}</h1>
-    </div>    
-
-  )
+            </div>
+            <h1 className="price">{new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL'
+                }).format(expense.value)}</h1>
+          </Container>
+        );
+      })}
+    </>
+  );
 }
