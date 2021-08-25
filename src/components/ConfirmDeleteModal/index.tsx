@@ -4,6 +4,7 @@ import { Button } from "../Button";
 import { database } from "../../services/firebase";
 import { useHistory } from "react-router-dom";
 import { toast } from 'react-toastify';
+import { useAuth } from "../../hooks/useAuth";
 
 
 export function ConfirmDeleteModal() {
@@ -16,10 +17,12 @@ export function ConfirmDeleteModal() {
 
   } = useExpense();
 
+
+  const {user } = useAuth()
   const history = useHistory();
 
   function handleDelete() {
-    const expenseRef = database.ref('expenses/'+expenseSelected?.id);
+    const expenseRef = database.ref(`expenses/${user?.id}/`+expenseSelected?.id);
     expenseRef.remove()
     history.push("/dashboard");
     setConfirmDelete(false);

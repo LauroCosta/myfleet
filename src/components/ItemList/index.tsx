@@ -71,6 +71,7 @@ export function ExpenseList() {
           };
         }
       );
+      
       setExpenses(parsedExpenses.reverse());
     });
   }, []);
