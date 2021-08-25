@@ -67,7 +67,7 @@ export function AuthContextProvider(props: AuthContextProviderProps){
     });
 
     if (count === 0) {
-      history.push("/choose");
+      history.push("/dashboard");
     }else{
       history.push("/dashboard");
     }

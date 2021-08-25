@@ -2,9 +2,10 @@ import { Container } from "./style"
 import day from 'dayjs';
 import { useState, useEffect } from 'react';
 
-import { database } from '../../services/firebase';
+import { database, firebase } from '../../services/firebase';
 import { useHistory } from "react-router-dom";
 import { useExpense } from "../../contexts/ExpenseContext";
+import { useAuth } from "../../hooks/useAuth";
 
 type ExpensesData = Record<string, {
   description: string;
@@ -28,14 +29,14 @@ export function ExpenseList() {
   const { setExpenseSelected } = useExpense();
   const history = useHistory();
   const [expenses, setExpenses] = useState<Expenses[]>([]);
-
-
-  // function filterMyId(value: Expenses) {
-  //   if (value.userId === user?.id) {
-  //     return value;
-  //   }
-  //   return;
-  // }
+  const { user } =  useAuth();
+ 
+  function filterMyId(value: Expenses) {
+    if (value.userId === user?.id) {
+      return value;
+    }
+    return;
+  }
 
   function toggleItem(expense: Expenses) {
     console.log(expense);
@@ -51,7 +52,7 @@ export function ExpenseList() {
   // }
 
   useEffect(() => {
-    const expensesRef = database.ref('expenses').orderByChild('createdAt');
+    const expensesRef = database.ref(`expenses/${user?.id}`);
 
     expensesRef.on('value', (expense) => {
       const databaseExpense = expense.val();
@@ -80,10 +81,10 @@ export function ExpenseList() {
       {expenses.map((expense) => {
         return (
           <Container key={expense.id} onClick={() => toggleItem(expense)}>
-            <div className="info" >
+            <div className="info" key={expense.id}>
               <h1>{expense.description}</h1>
               <h2>{expense.locale}</h2>
-              <strong>{day(expense.createdAt).format('DD-MM-YY HH:m')}</strong>
+              <strong>{day(expense.createdAt).format('DD-MM-YY HH:mm')}</strong>
 
             </div>
             <h1 className="price">{new Intl.NumberFormat('pt-BR', {

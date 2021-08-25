@@ -6,7 +6,11 @@ export function Mileage() {
     <>
       <Content>
 
-        <h1>Quilometragem</h1>
+        <header />
+        <section>
+          <h1>Quilometragem</h1>
+
+        </section>
 
       </Content>
 

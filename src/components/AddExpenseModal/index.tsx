@@ -27,7 +27,7 @@ export function AddExpenseModal() {
   
   async function handleCreateExpense(event: FormEvent) {
     event.preventDefault();
-    const expenseRef = database.ref('expenses');
+    const expenseRef = database.ref(`expenses/${user?.id}`);
 
     await expenseRef.push({
       description: description,

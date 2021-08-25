@@ -1,10 +1,20 @@
 import { Footer } from "../../components/Footer";
+import { Container } from "./style";
 
 export function Vehicle() {
   return (
 
     <>
-      <h1>Veículo</h1>
+      <Container>
+
+        <header />
+        <section>
+          <h1>Veículo</h1>
+
+
+        </section>
+
+      </Container>
       <Footer />
     </>
   );
