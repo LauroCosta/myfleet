@@ -5,7 +5,7 @@ import { FormEvent, useState } from "react";
 import { database } from "../../services/firebase";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-
+import { toast } from 'react-toastify';
 export function AddExpenseModal() {
 
   const {
@@ -25,7 +25,6 @@ export function AddExpenseModal() {
   const history = useHistory();
   const [hasChanged, setHasChanged] = useState(true);
   
-
   async function handleCreateExpense(event: FormEvent) {
     event.preventDefault();
     const expenseRef = database.ref('expenses');
@@ -41,6 +40,16 @@ export function AddExpenseModal() {
     reset();
     closeModal();
     history.push('/dashboard');
+
+    toast.success('Despesa cadastrada!', {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
   }
 
   async function handleCancelExpense(event: FormEvent) {
@@ -49,11 +58,7 @@ export function AddExpenseModal() {
 
   }
 
-
   return (
-
-    
-
     <>
       {isOpen &&
 

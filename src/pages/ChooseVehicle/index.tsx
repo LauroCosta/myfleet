@@ -1,9 +1,12 @@
 import {useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button } from "../../components/Button";
+import { ConfirmVehicleModal } from "../../components/ConfirmVehicleModal";
 import { useVehicle } from "../../contexts/VehicleContext";
 import { firebase } from "../../services/firebase";
 import { Content } from "./style";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 type Vehicle = {
   id: string
@@ -20,47 +23,62 @@ type Vehicle = {
 
 export function ChooseVeicle() {
 
-  const history = useHistory();
-  const { setVehicleFound, vehicleFound } = useVehicle();
+  const { setVehicleFound, setConfirmVehicle, code, setCode } = useVehicle();
 
 
-  const [code, setCode] = useState("");
  // const [vehicleFound, setVehicleFound] = useState<Vehicle>();
 
   function handleClick() {
+
     var vehicleRef = firebase.database().ref(`vehicles/${code}`);
     vehicleRef.on('value', (vehicle) => {
       const data: Vehicle = vehicle.val();
   
       if (!data) {
         setVehicleFound(undefined);
+        toast.error('Código inválido!', {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
+          
         return;        
       }
 
       if (data.user !== "none") {
         setVehicleFound(undefined);
+
+        toast.warn('Veículo não disponível!', {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
+          
         return;
       }
 
       setVehicleFound(data);
-      history.push('/confirmationVehicle');
+      setConfirmVehicle(true);
+
     });
   }
 
   return (
-    
-
       <Content>
-
-
-        <h1>Informe o código do veiculo</h1>
-
+        <h1>Cole o código do veículo fornecido pela empresa</h1>
         <input type="text" onChange={event => setCode(event.target.value)} value={code}/>
-
-
-        { vehicleFound && <div>{vehicleFound.model}</div>}
-
-        <Button onClick={handleClick}>Prosseguir</Button>
+        <footer>
+          <Button onClick={handleClick}>Prosseguir</Button>
+        </footer>
+        <ConfirmVehicleModal />
       </Content>
   );
 }

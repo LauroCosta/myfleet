@@ -11,6 +11,10 @@ export const Container = styled.div`
   align-items: center;
   justify-content: space-between;
 
+  transition: transform 0.2s;
+  &:hover {
+    transform: scale(1.02);
+  }
   .price {
 
     font-size: 1.5rem;

@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { auth, firebase } from "../services/firebase";
 
 import { createContext } from "react";
+import { useHistory } from "react-router-dom";
 
 type User = {
   id: string;
@@ -24,6 +25,8 @@ type AuthContextProviderProps = {
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthContextProvider(props: AuthContextProviderProps){
+
+  const history = useHistory();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -53,7 +56,23 @@ export function AuthContextProvider(props: AuthContextProviderProps){
   const [user, setUser] = useState<User>();
   const [signed, setSigned] = useState(false);
  
- 
+  function isVehicle(){
+
+    let count = 0;
+    var ref = firebase.database().ref("vehicles");
+    ref.orderByChild("user").equalTo(String(user?.id)).on("child_added", function (snapshot) {
+      
+
+      count++;
+    });
+
+    if (count == 0) {
+      history.push("/choose");
+    }else{
+      history.push("/dashboard");
+    }
+  }
+
   async function signInWithGoogle() {
 
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -74,6 +93,8 @@ export function AuthContextProvider(props: AuthContextProviderProps){
         email,
       });
 
+
+      isVehicle();
       setSigned(true);
     }
 
@@ -82,6 +103,7 @@ export function AuthContextProvider(props: AuthContextProviderProps){
   async function logOut() {
     auth.signOut().then(() => {
       setSigned(false);
+      history.push("/");
     });
     
   }

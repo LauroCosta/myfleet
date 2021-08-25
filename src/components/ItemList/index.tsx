@@ -2,8 +2,10 @@ import { Container } from "./style"
 import day from 'dayjs';
 import { useState, useEffect } from 'react';
 
-import { database } from '../../services/firebase';
+import { database, firebase } from '../../services/firebase';
 import { useAuth } from "../../hooks/useAuth";
+import { useHistory } from "react-router-dom";
+import { useExpense } from "../../contexts/ExpenseContext";
 
 type ExpensesData = Record<string, {
   description: string;
@@ -25,14 +27,29 @@ type Expenses = {
 export function ExpenseList() {
 
   const { user } = useAuth();
-
+  const { setExpenseSelected } = useExpense();
+  const history = useHistory();
   const [expenses, setExpenses] = useState<Expenses[]>([]);
 
+
   function filterMyId(value: Expenses) {
-    if (value.userId === user?.id){
+    if (value.userId === user?.id) {
       return value;
     }
     return;
+  }
+
+  function toggleItem(expense: Expenses) {
+    console.log(expense);
+    setExpenseSelected(expense);
+    history.push('/detail');
+  }
+
+  function teste(){
+    var ref = firebase.database().ref("expenses");
+    ref.orderByChild("userId").equalTo(String(user?.id)).on("child_added", function (snapshot) {
+      console.log(snapshot.key);
+    });
   }
 
   useEffect(() => {
@@ -55,15 +72,16 @@ export function ExpenseList() {
           };
         }
       );
-      setExpenses(parsedExpenses.reverse().filter(filterMyId));
+      setExpenses(parsedExpenses.reverse());
     });
   }, []);
 
   return (
     <>
+    
       {expenses.map((expense) => {
         return (
-          <Container key={expense.id}>
+          <Container key={expense.id} onClick={() => toggleItem(expense)}>
             <div className="info" >
               <h1>{expense.description}</h1>
               <h2>{expense.locale}</h2>
@@ -74,6 +92,7 @@ export function ExpenseList() {
               style: 'currency',
               currency: 'BRL'
             }).format(expense.value)}</h1>
+
           </Container>
         );
       })}
