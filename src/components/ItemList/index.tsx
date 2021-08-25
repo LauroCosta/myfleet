@@ -2,8 +2,7 @@ import { Container } from "./style"
 import day from 'dayjs';
 import { useState, useEffect } from 'react';
 
-import { database, firebase } from '../../services/firebase';
-import { useAuth } from "../../hooks/useAuth";
+import { database } from '../../services/firebase';
 import { useHistory } from "react-router-dom";
 import { useExpense } from "../../contexts/ExpenseContext";
 
@@ -26,18 +25,17 @@ type Expenses = {
 
 export function ExpenseList() {
 
-  const { user } = useAuth();
   const { setExpenseSelected } = useExpense();
   const history = useHistory();
   const [expenses, setExpenses] = useState<Expenses[]>([]);
 
 
-  function filterMyId(value: Expenses) {
-    if (value.userId === user?.id) {
-      return value;
-    }
-    return;
-  }
+  // function filterMyId(value: Expenses) {
+  //   if (value.userId === user?.id) {
+  //     return value;
+  //   }
+  //   return;
+  // }
 
   function toggleItem(expense: Expenses) {
     console.log(expense);
@@ -45,12 +43,12 @@ export function ExpenseList() {
     history.push('/detail');
   }
 
-  function teste(){
-    var ref = firebase.database().ref("expenses");
-    ref.orderByChild("userId").equalTo(String(user?.id)).on("child_added", function (snapshot) {
-      console.log(snapshot.key);
-    });
-  }
+  // function teste(){
+  //   var ref = firebase.database().ref("expenses");
+  //   ref.orderByChild("userId").equalTo(String(user?.id)).on("child_added", function (snapshot) {
+  //     console.log(snapshot.key);
+  //   });
+  // }
 
   useEffect(() => {
     const expensesRef = database.ref('expenses').orderByChild('createdAt');

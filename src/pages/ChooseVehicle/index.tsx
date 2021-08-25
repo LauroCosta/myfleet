@@ -1,11 +1,10 @@
-import {useState } from "react";
-import { useHistory } from "react-router-dom";
+
 import { Button } from "../../components/Button";
 import { ConfirmVehicleModal } from "../../components/ConfirmVehicleModal";
 import { useVehicle } from "../../contexts/VehicleContext";
 import { firebase } from "../../services/firebase";
 import { Content } from "./style";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 type Vehicle = {

@@ -1,6 +1,4 @@
-import { useEffect } from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import { Route, Switch } from "react-router-dom";
 import { ChooseVeicle } from "../pages/ChooseVehicle";
 import { ConfirmationVehicle } from "../pages/ConfirmationVehicle";
 import { Dashboard } from "../pages/Dashboard";

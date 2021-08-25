@@ -66,7 +66,7 @@ export function AuthContextProvider(props: AuthContextProviderProps){
       count++;
     });
 
-    if (count == 0) {
+    if (count === 0) {
       history.push("/choose");
     }else{
       history.push("/dashboard");
