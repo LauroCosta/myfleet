@@ -3,8 +3,12 @@ import React, { createContext, ReactNode, useContext, useState } from "react";
 type VehicleContextData = {
   vehicleFound: Vehicle | undefined;
   setVehicleFound: (vehicle: Vehicle | undefined) => void;
-
+  confirmVehicle: boolean;
+  setConfirmVehicle: (confirm: boolean) => void;
+  code: string;
+  setCode: (code: string) => void;
 }
+
 type Vehicle = {
   id: string
   brand: string;
@@ -26,11 +30,18 @@ type VehicleContextProviderProps = {
 export function VehicleContextProvider({ children }: VehicleContextProviderProps) {
   const [vehicleFound, setVehicleFound] = useState<Vehicle>();
 
+  const [confirmVehicle, setConfirmVehicle] = useState(false);
+
+  const [code, setCode] = useState("");
   return (
     <VehicleContext.Provider 
       value={{
         vehicleFound,
-        setVehicleFound
+        setVehicleFound,
+        confirmVehicle,
+        setConfirmVehicle,
+        code,
+        setCode
       }}>
       {children}
     </VehicleContext.Provider>
